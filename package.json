@@ -1,0 +1,31 @@
+{
+  "name": "florian-project",
+  "version": "1.0.0",
+  "description": "Client-Server project for participation management",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "install:all": "npm install",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "start:server": "npm run start --workspace=server",
+    "start:client": "npm run start --workspace=client",
+    "dev:server": "npm run server:dev --workspace=server",
+    "dev:client": "npm run client:dev --workspace=client",
+    "install:server": "npm install --workspace=server",
+    "install:client": "npm install --workspace=client",
+    "clean": "rm -rf node_modules client/node_modules server/node_modules",
+    "postinstall": "echo 'All workspaces installed successfully!'"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
