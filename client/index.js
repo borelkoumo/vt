@@ -3,9 +3,24 @@ import failedParticipations from './data/failed-participations.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config({ path: path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../.env') });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const outputFilePath = path.join(__dirname, 'output', 'result.log');
+const outputFilePath = path.join(__dirname, 'output', process.env.OUTPUT_LOG_FILENAME || 'result.log');
+
+// Configuration from environment variables
+const config = {
+    serverUrl: process.env.SERVER_URL || 'http://localhost:3000',
+    promotionEndpoint: process.env.PROMOTION_ENDPOINT || '/promotion',
+    auth: {
+        username: process.env.AUTH_USERNAME || 'admin',
+        password: process.env.AUTH_PASSWORD || 'password123!'
+    },
+    requestDelay: parseInt(process.env.REQUEST_DELAY) || 2000
+};
 
 console.log('Starting to resend failed participations...');
 console.log(`Number of failed participations: ${failedParticipations.length}`);
@@ -17,17 +32,16 @@ async function sleep(ms) {
 async function resendParticipations() {
     for (let i = 0; i < failedParticipations.length; i++) {
         const payload = failedParticipations[i];
-        const config = {
+        const requestConfig = {
             method: 'post',
             auth: {
-                username: 'admin',
-                password: 'password123'
+                username: config.auth.username,
+                password: config.auth.password
             },
             maxBodyLength: Infinity,
-            url: 'http://localhost:3000/promotion',
+            url: `${config.serverUrl}${config.promotionEndpoint}`,
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Basic Y3hmLWFjY291bnQtdXNlcjpZZGlETk1KUmE2YWVRTXMhSlY3YSFXKjY5UFMjOWVSJA=='
             },
             data: JSON.stringify(payload),
         };
@@ -35,7 +49,7 @@ async function resendParticipations() {
         let response;
         try {
             console.log(` Sending request ${i + 1}/${failedParticipations.length}`);
-            response = await axios.request(config);
+            response = await axios.request(requestConfig);
             console.log('\t✅ Success:', response.status);
         } catch (error) {
             response = error.response || {};
@@ -44,8 +58,8 @@ async function resendParticipations() {
         writeLog(payload, response);
 
         if (i < failedParticipations.length - 1) {
-            console.log(`\tWaiting for 2 seconds ...`);
-            await sleep(2000);
+            console.log(`\tWaiting for ${config.requestDelay / 1000} seconds ...`);
+            await sleep(config.requestDelay);
         }
         console.log('\t━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     }

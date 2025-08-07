@@ -8,14 +8,19 @@
     "server:dev": "nodemon index.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
     "basic-auth": "^2.0.1",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
-  "keywords": ["express", "server", "basic-auth"],
+  "keywords": [
+    "express",
+    "server",
+    "basic-auth"
+  ],
   "author": "",
   "license": "ISC"
 }

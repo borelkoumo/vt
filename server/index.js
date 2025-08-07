@@ -1,9 +1,13 @@
 const express = require('express');
 const basicAuth = require('basic-auth');
 const cors = require('cors');
+const dotenv = require('dotenv');
+
+// Load environment variables
+dotenv.config({ path: require('path').resolve(__dirname, '../.env') });
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.SERVER_PORT || 3000;
 
 // Middleware
 app.use(cors());
@@ -13,9 +17,9 @@ app.use(express.json());
 const auth = (req, res, next) => {
   const credentials = basicAuth(req);
   
-  // Default credentials - change these in production
-  const validUsername = 'admin';
-  const validPassword = 'password123';
+  // Credentials from environment variables
+  const validUsername = process.env.AUTH_USERNAME || 'admin';
+  const validPassword = process.env.AUTH_PASSWORD || 'admin';
   
   if (!credentials || credentials.name !== validUsername || credentials.pass !== validPassword) {
     res.set('WWW-Authenticate', 'Basic realm="Protected Area"');
@@ -34,11 +38,11 @@ app.get('/', (req, res) => {
 });
 
 // Protected POST endpoint
-app.post('/promotion', auth, (req, res) => {
-  const { data } = req.body;
+app.post(process.env.PROMOTION_ENDPOINT || '/promotion', auth, (req, res) => {
+  console.log('Received promotion data:', req.body);
   res.json({ 
-    message: 'Data received successfully',
-    receivedData: data,
+    message: 'Promotion data received successfully',
+    receivedData: req.body,
     timestamp: new Date().toISOString()
   });
 });
@@ -55,6 +59,7 @@ app.use('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-  console.log(`Protected endpoint: http://localhost:${PORT}/promotion`);
+  console.log(`Server is running on ${process.env.SERVER_URL || `http://localhost:${PORT}`}`);
+  console.log(`Protected endpoint: ${process.env.SERVER_URL || `http://localhost:${PORT}`}${process.env.PROMOTION_ENDPOINT || '/promotion'}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });

@@ -27,6 +27,35 @@ florian/
 - Node.js (>= 16.0.0)
 - npm (>= 7.0.0)
 
+### Environment Configuration
+
+1. **Copy the environment template:**
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Edit the `.env` file with your configuration:**
+   ```bash
+   # Server Configuration
+   SERVER_PORT=3000
+   SERVER_HOST=localhost
+   SERVER_URL=http://localhost:3000
+
+   # API Endpoints
+   PROMOTION_ENDPOINT=/promotion
+
+   # Authentication Credentials
+   AUTH_USERNAME=your_username
+   AUTH_PASSWORD=your_secure_password
+
+   # Client Configuration
+   REQUEST_DELAY=2000
+   OUTPUT_LOG_FILENAME=result.log
+
+   # Environment
+   NODE_ENV=development
+   ```
+
 ### Installation
 
 Install all dependencies for both client and server:
@@ -104,18 +133,34 @@ npm run dev:client
 
 ### Authentication
 
-The server uses Basic Authentication with the following credentials:
-- Username: `cxf-account-user`
-- Password: `YdiDNMJRa6aeQMs!JV7a!W*69PS#9eR$`
+The server uses Basic Authentication with credentials configured via environment variables:
+- Username: Set via `AUTH_USERNAME` (default: `admin`)
+- Password: Set via `AUTH_PASSWORD` (default: `password123!`)
+
+**Security Note:** Always change the default credentials in production and use strong passwords.
 
 ## Client Configuration
 
 The client script:
 - Reads failed participations from `./data/failed-participations.js`
-- Sends POST requests to `https://localhost:3000/promotion`
-- Logs responses to `./output/resend-participations.log`
-- Includes a 2-second delay between requests
-- Processes participations with a configurable limit
+- Sends POST requests to the configured server URL
+- Logs responses to the configured output file
+- Includes a configurable delay between requests
+- All settings are controlled via environment variables
+
+## Environment Variables
+
+| Variable | Description | Default Value |
+|----------|-------------|---------------|
+| `SERVER_PORT` | Port for the server | `3000` |
+| `SERVER_HOST` | Server hostname | `localhost` |
+| `SERVER_URL` | Full server URL | `http://localhost:3000` |
+| `PROMOTION_ENDPOINT` | API endpoint path | `/promotion` |
+| `AUTH_USERNAME` | Basic auth username | `admin` |
+| `AUTH_PASSWORD` | Basic auth password | `password123!` |
+| `REQUEST_DELAY` | Delay between requests (ms) | `2000` |
+| `OUTPUT_LOG_FILENAME` | Log file name | `result.log` |
+| `NODE_ENV` | Environment mode | `development` |
 
 ## Data Structure
 
