@@ -1,4 +1,4 @@
-# Florian Project
+# Project description
 
 A client-server application for managing and resending failed participations with Express.js backend and Node.js client.
 
