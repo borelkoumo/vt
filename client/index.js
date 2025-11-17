@@ -13,7 +13,7 @@ const outputFilePath = path.join(__dirname, 'output', process.env.OUTPUT_LOG_FIL
 
 // Configuration from environment variables
 const config = {
-    serverUrl: process.env.SERVER_URL || 'http://localhost:3000',
+    serverUrl: process.env.SERVER_URL || 'http://localhost:4000',
     promotionEndpoint: process.env.PROMOTION_ENDPOINT || '/promotion',
     auth: {
         username: process.env.AUTH_USERNAME || 'admin',
