@@ -7,7 +7,7 @@ A client-server application for managing and resending failed participations wit
 This project uses npm workspaces to manage both client and server applications:
 
 ```
-florian/
+vt/
 ├── package.json          # Root workspace configuration
 ├── client/              # Client application
 │   ├── package.json     # Client dependencies
@@ -37,9 +37,9 @@ florian/
 2. **Edit the `.env` file with your configuration:**
    ```bash
    # Server Configuration
-   SERVER_PORT=3000
+   SERVER_PORT=4000
    SERVER_HOST=localhost
-   SERVER_URL=http://localhost:3000
+   SERVER_URL=http://localhost:4000
 
    # API Endpoints
    PROMOTION_ENDPOINT=/promotion
@@ -111,7 +111,7 @@ npm run dev:client
    cd server
    npm install
    npm start
-   # Server runs on http://localhost:3000
+   # Server runs on http://localhost:4000
    ```
 
 2. **Run the client:**
@@ -124,7 +124,7 @@ npm run dev:client
 
 ## API Endpoints
 
-### Server (Port 3000)
+### Server (Port 4000)
 
 - **POST /promotion**
   - Receives participation data
@@ -152,9 +152,9 @@ The client script:
 
 | Variable | Description | Default Value |
 |----------|-------------|---------------|
-| `SERVER_PORT` | Port for the server | `3000` |
+| `SERVER_PORT` | Port for the server | `4000` |
 | `SERVER_HOST` | Server hostname | `localhost` |
-| `SERVER_URL` | Full server URL | `http://localhost:3000` |
+| `SERVER_URL` | Full server URL | `http://localhost:4000` |
 | `PROMOTION_ENDPOINT` | API endpoint path | `/promotion` |
 | `AUTH_USERNAME` | Basic auth username | `admin` |
 | `AUTH_PASSWORD` | Basic auth password | `password123!` |
