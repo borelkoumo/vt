@@ -2,7 +2,7 @@
 
 # Florian Project Setup Script
 
-echo "🚀 Setting up Florian Project..."
+echo "🚀 Setting up VT Project..."
 
 # Check if .env exists
 if [ ! -f ".env" ]; then
